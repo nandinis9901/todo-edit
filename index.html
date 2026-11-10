@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My To-Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📝 My To-Do App</h1>
+        
+        <form action="/add" method="POST">
+            <form class="add-form" action="/add" method="POST">
+            <input type="text" name="task" placeholder="Enter new task" required>
+            <input type="date" name="due_date">
+            <button type="submit">Add</button>
+        </form>
+<ul>
+    {% for todo in todos %}
+        <li>
+            {% if todo.complete %}
+                <span style="text-decoration: line-through;">{{ todo.task }}</span>
+            {% else %}
+                <span>{{ todo.task }}</span>
+            {% endif %}
+            
+            {% if todo.due_date %}
+                <small> (Due: {{ todo.due_date }})</small>
+            {% endif %}
+
+            {% if todo.complete %}
+                <a href="/undo/{{ todo.id }}"><button class="undo">Undo</button></a>
+            {% else %}
+                <a href="/update/{{ todo.id }}"><button class="done">Done</button></a>
+            {% endif %}
+            <a href="/delete/{{ todo.id }}"><button class="delete">Delete</button></a>
+            <a href="/edit/{{ todo.id }}"><button type="button">Edit</button></a>
+        </li>
+    {% endfor %}
+</ul>
+        
+    </div>
+</body>
+</html>
